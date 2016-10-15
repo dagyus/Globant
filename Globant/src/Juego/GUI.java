@@ -5,7 +5,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GUI extends JFrame implements FocusListener{
-    private Container container=new Container();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Container container=new Container();
     private JButton apostarInicioPelea;
     private ButtonGroup apuesta;
     private JRadioButton heroe, villano;

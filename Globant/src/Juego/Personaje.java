@@ -27,5 +27,71 @@ public class Personaje {
 		inteligencia=INTELIGENCIA_BASE+edad;
 		return inteligencia;
 	}
+	public int getIdInicio() {
+		return idInicio;
+	}
+	public void setIdInicio(int idInicio) {
+		this.idInicio = idInicio;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getEdad() {
+		return edad;
+	}
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+	public int getAgilidad() {
+		return agilidad;
+	}
+	public void setAgilidad(int agilidad) {
+		this.agilidad = agilidad;
+	}
+	public int getPuntos() {
+		return puntos;
+	}
+	public void setPuntos(int puntos) {
+		this.puntos = puntos;
+	}
+	public int getFuerza() {
+		return fuerza;
+	}
+	public void setFuerza(int fuerza) {
+		this.fuerza = fuerza;
+	}
+	public String getRaza() {
+		return raza;
+	}
+	public void setRaza(String raza) {
+		this.raza = raza;
+	}
+	public double getPeso() {
+		return peso;
+	}
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+	public double getVelocidad() {
+		return velocidad;
+	}
+	public void setVelocidad(double velocidad) {
+		this.velocidad = velocidad;
+	}
+	public double getInteligencia() {
+		return inteligencia;
+	}
+	public void setInteligencia(double inteligencia) {
+		this.inteligencia = inteligencia;
+	}
+	public static int getVelocidadBase() {
+		return VELOCIDAD_BASE;
+	}
+	public static int getInteligenciaBase() {
+		return INTELIGENCIA_BASE;
+	}
 	
 }
