@@ -2,8 +2,8 @@ package Juego;
 
 public class Personaje {
 	int idInicio;
-	private static final int velocidadBase=500;
-	private static final int inteligenciaBase=300;
+	private static final int VELOCIDAD_BASE=500;
+	private static final int INTELIGENCIA_BASE=300;
 	private int id, edad,  agilidad, puntos, fuerza;
 	private String raza;
 	private double peso, velocidad, inteligencia;
@@ -20,11 +20,11 @@ public class Personaje {
 		this.peso = peso;
 	}
 	private double calculaVelocidad(){
-		velocidad=velocidadBase-(peso*0.3);
+		velocidad=VELOCIDAD_BASE-(peso*0.3);
 		return velocidad;
 	}
 	private double calculaInteligencia(){
-		inteligencia=inteligenciaBase+edad;
+		inteligencia=INTELIGENCIA_BASE+edad;
 		return inteligencia;
 	}
 	
