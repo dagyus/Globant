@@ -1,15 +1,15 @@
 package Juego;
 
 public class Personaje {
-	int idInicio;
+	private static final int ID_INICIO=1;
 	private static final int VELOCIDAD_BASE=500;
 	private static final int INTELIGENCIA_BASE=300;
-	private int id, edad,  agilidad, puntos, fuerza;
+	private int id, edad,  agilidad, puntos, fuerza, precision;
 	private String raza;
 	private double peso, velocidad, inteligencia;
-	public Personaje(int id, int edad, int agilidad, int puntos, int fuerza,
+	public Personaje(int edad, int agilidad, int puntos, int fuerza,
 			String raza, float peso) {
-		this.id = id;
+		this.id = calcularID();
 		this.edad = edad;
 		this.velocidad = calculaVelocidad();
 		this.agilidad = agilidad;
@@ -18,6 +18,13 @@ public class Personaje {
 		this.fuerza = fuerza;
 		this.raza = raza;
 		this.peso = peso;
+		this.precision = calcularPrecision();
+	}
+	public int getPrecision() {
+		return precision;
+	}
+	public void setPrecision(int precision) {
+		this.precision = precision;
 	}
 	private double calculaVelocidad(){
 		velocidad=VELOCIDAD_BASE-(peso*0.3);
@@ -28,10 +35,7 @@ public class Personaje {
 		return inteligencia;
 	}
 	public int getIdInicio() {
-		return idInicio;
-	}
-	public void setIdInicio(int idInicio) {
-		this.idInicio = idInicio;
+		return ID_INICIO;
 	}
 	public int getId() {
 		return id;
@@ -93,5 +97,15 @@ public class Personaje {
 	public static int getInteligenciaBase() {
 		return INTELIGENCIA_BASE;
 	}
-	
+	public int calcularPrecision(){
+		precision=(int) (Math.random()%10);
+		return precision;
+	}
+	public int calcularID(){
+		if(id==0)
+			id=ID_INICIO;
+		else
+			id++;
+		return id;
+	}
 }
