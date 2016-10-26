@@ -8,18 +8,29 @@ public class Personaje {
 	private int id, edad,  agilidad, puntos, fuerza, precision;
 	private String raza;
 	private double peso, velocidad, inteligencia;
-	public Personaje(int id, int edad, int agilidad, int puntos, int fuerza,
+	private Random random=new Random();
+	public Personaje(int id, int edad, int puntos, 
 			String raza, float peso) {
 		this.id = id;
 		this.edad = edad;
-		this.velocidad = calculaVelocidad();
-		this.agilidad = agilidad;
-		this.inteligencia = calculaInteligencia();
-		this.puntos = puntos;
-		this.fuerza = fuerza;
+		this.puntos = puntos;		
 		this.raza = raza;
 		this.peso = peso;
+		this.velocidad = calculaVelocidad();
+		this.agilidad = calcularAgilidad();
+		this.inteligencia = calculaInteligencia();
+		this.fuerza = calcularFuerza();
 		this.precision = calcularPrecision();
+	}
+	private int calcularFuerza() {
+		while(fuerza<200)
+			fuerza = random.nextInt(700);
+		return fuerza;
+	}
+	private int calcularAgilidad() {
+		while(agilidad<200)
+			agilidad = random.nextInt(700);
+		return agilidad;
 	}
 	public int getPrecision() {
 		return precision;
@@ -96,7 +107,6 @@ public class Personaje {
 		return INTELIGENCIA_BASE;
 	}
 	public int calcularPrecision(){
-		Random random=new Random();
 		precision=random.nextInt(10);
 		return precision;
 	}

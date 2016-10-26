@@ -20,6 +20,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
     private JRadioButton heroe, villano;
     private JTextField puntosApuesta;
     private static ArrayList<Personaje> personajes=new ArrayList<>();
+    private Usuario usuario;
     public GUI(){
         super("Juego");
         container=getContentPane();
@@ -87,19 +88,23 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource()==apostarInicioPelea){
-			int idHeroe=1, idVillano=1;
-			Random random=new Random();
-			do{
-				idHeroe= random.nextInt(personajes.size()-1);
-			}while(!(personajes.get(idHeroe) instanceof Heroe) || (idHeroe<0));
-			do{
-				idVillano=random.nextInt(personajes.size()-1);
-			}while(!(personajes.get(idVillano) instanceof Villano) || (idVillano<0));
-			ServicioPelea pelea=new ServicioPelea((Heroe) personajes.get(idHeroe), (Villano) personajes.get(idVillano));
-			pelea.pelea();
-			idHeroe=1;
-			idVillano=1;
-		}
+				if(verificarPuntos(usuario)){
+					int idHeroe=1, idVillano=1;
+					Random random=new Random();
+					do{
+						idHeroe= random.nextInt(personajes.size()-1);
+					}while(!(personajes.get(idHeroe) instanceof Heroe) || (idHeroe<0));
+					do{
+						idVillano=random.nextInt(personajes.size()-1);
+					}while(!(personajes.get(idVillano) instanceof Villano) || (idVillano<0));
+					ServicioPelea pelea=new ServicioPelea((Heroe) personajes.get(idHeroe), (Villano) personajes.get(idVillano));
+					pelea.pelea();
+					idHeroe=1;
+					idVillano=1;
+				}else{
+					JOptionPane.showMessageDialog(null, "Verificar puntos o campo de apuesta.");
+				}
+			}
 	}
 	
 	public static void leerHeroes(){
@@ -113,7 +118,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
             oBufferedReader = new BufferedReader(oFileReader);
 
             String linea;
-            int edad=0, agilidad=0, puntos=0, fuerza=0;
+            int edad=0, puntos=0;
             String raza="";
             float peso=0;
 
@@ -132,22 +137,14 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
                             cadena="";
                             break;
                         case 2:
-                        	agilidad=Integer.parseInt(cadena);
-                        	cadena="";
-                        	break;
-                        case 3:
                         	puntos=Integer.parseInt(cadena);
                         	cadena="";
                         	break;
-                        case 4:
-                        	fuerza=Integer.parseInt(cadena);
-                        	cadena="";
-                        	break;
-                        case 5:
+                        case 3:
                         	raza=cadena;
                         	cadena="";
                         	break;
-                        case 6:
+                        case 4:
                         	peso=Float.parseFloat(cadena);
                         	cadena="";
                         	break;
@@ -156,9 +153,9 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
                     i++;
                 }
                 if(personajes.isEmpty()){
-                	personajes.add(new Heroe(ID_INICIO, edad, agilidad, puntos, fuerza, raza, peso));
+                	personajes.add(new Heroe(ID_INICIO, edad, puntos, raza, peso));
                 }else{
-                	personajes.add(new Heroe(personajes.size()+1, edad, agilidad, puntos, fuerza, raza, peso));
+                	personajes.add(new Heroe(personajes.size()+1, edad, puntos, raza, peso));
                 }
             }
         } catch (Exception e) {
@@ -187,7 +184,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
             oBufferedReader = new BufferedReader(oFileReader);
 
             String linea;
-            int edad=0, agilidad=0, puntos=0, fuerza=0;
+            int edad=0, puntos=0;
             String raza="";
             float peso=0;
 
@@ -206,22 +203,14 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
                             cadena="";
                             break;
                         case 2:
-                        	agilidad=Integer.parseInt(cadena);
-                        	cadena="";
-                        	break;
-                        case 3:
                         	puntos=Integer.parseInt(cadena);
                         	cadena="";
                         	break;
-                        case 4:
-                        	fuerza=Integer.parseInt(cadena);
-                        	cadena="";
-                        	break;
-                        case 5:
+                        case 3:
                         	raza=cadena;
                         	cadena="";
                         	break;
-                        case 6:
+                        case 4:
                         	peso=Float.parseFloat(cadena);
                         	cadena="";
                         	break;
@@ -230,9 +219,9 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
                     i++;
                 }
                 if(personajes.isEmpty()){
-                	personajes.add(new Villano(ID_INICIO, edad, agilidad, puntos, fuerza, raza, peso));
+                	personajes.add(new Villano(ID_INICIO, edad, puntos, raza, peso));
                 }else{
-                	personajes.add(new Villano(personajes.size()+1, edad, agilidad, puntos, fuerza, raza, peso));
+                	personajes.add(new Villano(personajes.size()+1, edad, puntos, raza, peso));
                 }
            }
         } catch (Exception e) {
@@ -249,4 +238,21 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
         }
 
     }
+	public boolean verificarPuntos(Usuario usuario){
+		try{
+			int apuesta= Integer.parseInt(puntosApuesta.getText());
+			if(usuario.getPuntos()>=apuesta)
+				return true;
+			else
+				return false;
+		} catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Verifique el campo de texto.");
+			return false;
+		}finally{
+			if(usuario.getPuntos()>=apuesta)
+				return true;
+			else
+				return false;
+		}
+	}
 }
