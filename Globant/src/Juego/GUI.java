@@ -7,18 +7,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-
+import java.util.Random;
 public class GUI extends JFrame implements FocusListener, ActionListener{
     /**
 	 * 
 	 */
+	private static final int ID_INICIO=1;
 	private static final long serialVersionUID = 1L;
 	private Container container=new Container();
     private JButton apostarInicioPelea;
     private ButtonGroup apuesta;
     private JRadioButton heroe, villano;
     private JTextField puntosApuesta;
-    private ArrayList<Personaje> personajes=new ArrayList<>();
+    private static ArrayList<Personaje> personajes=new ArrayList<>();
     public GUI(){
         super("Juego");
         container=getContentPane();
@@ -64,12 +65,12 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
             	}
             }
         });
-        leerHeroes();
-        leerVillano();
         apostarInicioPelea.addActionListener(this);
         setVisible(true);
     }
     public static void main(String[] args) {
+    	leerHeroes();
+        leerVillano();
 	    GUI gui=new GUI();
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -85,27 +86,30 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
     }
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource().equals(apostarInicioPelea)){
-			int idHeroe=0, idVillano=0;
+		if(event.getSource()==apostarInicioPelea){
+			int idHeroe=1, idVillano=1;
+			Random random=new Random();
 			do{
-				idHeroe=(int) Math.random()%(personajes.size()-1);
-			}while(!(personajes.get(idHeroe) instanceof Heroe));
+				idHeroe= random.nextInt(personajes.size()-1);
+			}while(!(personajes.get(idHeroe) instanceof Heroe) || (idHeroe<0));
 			do{
-				idVillano=(int) Math.random()%(personajes.size()-1);
-			}while(!(personajes.get(idVillano) instanceof Villano));
+				idVillano=random.nextInt(personajes.size()-1);
+			}while(!(personajes.get(idVillano) instanceof Villano) || (idVillano<0));
 			ServicioPelea pelea=new ServicioPelea((Heroe) personajes.get(idHeroe), (Villano) personajes.get(idVillano));
 			pelea.pelea();
+			idHeroe=1;
+			idVillano=1;
 		}
 	}
 	
-	public void leerHeroes(){
+	public static void leerHeroes(){
 
         FileReader oFileReader = null;
         BufferedReader oBufferedReader = null;
 
         try {
 
-            oFileReader = new FileReader(new File("Misc/heroe.txt"));
+            oFileReader = new FileReader(new File("heroe.txt"));
             oBufferedReader = new BufferedReader(oFileReader);
 
             String linea;
@@ -151,7 +155,11 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
                     }
                     i++;
                 }
-				personajes.add(new Heroe(edad, agilidad, puntos, fuerza, raza, peso));
+                if(personajes.isEmpty()){
+                	personajes.add(new Heroe(ID_INICIO, edad, agilidad, puntos, fuerza, raza, peso));
+                }else{
+                	personajes.add(new Heroe(personajes.size()+1, edad, agilidad, puntos, fuerza, raza, peso));
+                }
             }
         } catch (Exception e) {
 
@@ -168,14 +176,14 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
 
     }
 	
-	public void leerVillano(){
+	public static void leerVillano(){
 
         FileReader oFileReader = null;
         BufferedReader oBufferedReader = null;
 
         try {
 
-            oFileReader = new FileReader(new File("Misc/heroe.txt"));
+            oFileReader = new FileReader(new File("villano.txt"));
             oBufferedReader = new BufferedReader(oFileReader);
 
             String linea;
@@ -221,8 +229,12 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
                     }
                     i++;
                 }
-                personajes.add(new Villano(edad, agilidad, puntos, fuerza, raza, peso));
-            }
+                if(personajes.isEmpty()){
+                	personajes.add(new Villano(ID_INICIO, edad, agilidad, puntos, fuerza, raza, peso));
+                }else{
+                	personajes.add(new Villano(personajes.size()+1, edad, agilidad, puntos, fuerza, raza, peso));
+                }
+           }
         } catch (Exception e) {
 
         } finally {

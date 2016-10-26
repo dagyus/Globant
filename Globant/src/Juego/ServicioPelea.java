@@ -17,6 +17,7 @@ public class ServicioPelea {
 		compararVelocidad();
 		compararInteligencia();
 		compararAgilidad();
+		compararPrecision();
 		if(contadorHeroe>contadorVillano){
 			JOptionPane.showMessageDialog(null, "Gano el heroe.");
 		}
@@ -26,6 +27,8 @@ public class ServicioPelea {
 		if(contadorHeroe==contadorVillano){
 			JOptionPane.showMessageDialog(null, "Empataron.");
 		}
+		heroe=null;
+		villano=null;
 	}
 	
 	public void compararFuerza(){
@@ -57,6 +60,14 @@ public class ServicioPelea {
 			contadorHeroe++;
 		}
 		if(heroe.getAgilidad()<villano.getAgilidad()){
+			contadorVillano++;
+		}
+	}
+	public void compararPrecision(){
+		if(heroe.getPrecision()>villano.getPrecision()){
+			contadorHeroe++;
+		}
+		if(heroe.getPrecision()<villano.getPrecision()){
 			contadorVillano++;
 		}
 	}

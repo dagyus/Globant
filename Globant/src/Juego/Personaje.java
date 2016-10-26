@@ -1,15 +1,16 @@
 package Juego;
 
+import java.util.Random;
 public class Personaje {
-	private static final int ID_INICIO=1;
+	
 	private static final int VELOCIDAD_BASE=500;
 	private static final int INTELIGENCIA_BASE=300;
 	private int id, edad,  agilidad, puntos, fuerza, precision;
 	private String raza;
 	private double peso, velocidad, inteligencia;
-	public Personaje(int edad, int agilidad, int puntos, int fuerza,
+	public Personaje(int id, int edad, int agilidad, int puntos, int fuerza,
 			String raza, float peso) {
-		this.id = calcularID();
+		this.id = id;
 		this.edad = edad;
 		this.velocidad = calculaVelocidad();
 		this.agilidad = agilidad;
@@ -33,9 +34,6 @@ public class Personaje {
 	private double calculaInteligencia(){
 		inteligencia=INTELIGENCIA_BASE+edad;
 		return inteligencia;
-	}
-	public int getIdInicio() {
-		return ID_INICIO;
 	}
 	public int getId() {
 		return id;
@@ -98,14 +96,8 @@ public class Personaje {
 		return INTELIGENCIA_BASE;
 	}
 	public int calcularPrecision(){
-		precision=(int) (Math.random()%10);
+		Random random=new Random();
+		precision=random.nextInt(10);
 		return precision;
-	}
-	public int calcularID(){
-		if(id==0)
-			id=ID_INICIO;
-		else
-			id++;
-		return id;
 	}
 }
