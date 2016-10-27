@@ -1,5 +1,5 @@
 package Juego;
-
+import ServicioUsuario.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
     private JTextField puntosApuesta;
     private static ArrayList<Personaje> personajes=new ArrayList<>();
     private Usuario usuario;
-    public GUI(){
+    public GUI(Usuario usuario){
         super("Juego");
         container=getContentPane();
         container.setBackground(Color.BLACK);
@@ -67,13 +67,14 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
             }
         });
         apostarInicioPelea.addActionListener(this);
+        this.usuario=usuario;
+        leerHeroes();
+        leerVillano();
         setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     public static void main(String[] args) {
-    	leerHeroes();
-        leerVillano();
-	    GUI gui=new GUI();
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	
     }
 
     @Override
@@ -88,7 +89,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource()==apostarInicioPelea){
-				if(verificarPuntos(usuario)){
+				//if(verificarPuntos(usuario)){
 					int idHeroe=1, idVillano=1;
 					Random random=new Random();
 					do{
@@ -101,9 +102,9 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
 					pelea.pelea();
 					idHeroe=1;
 					idVillano=1;
-				}else{
+				/*}else{
 					JOptionPane.showMessageDialog(null, "Verificar puntos o campo de apuesta.");
-				}
+				}*/
 			}
 	}
 	
@@ -238,7 +239,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
         }
 
     }
-	public boolean verificarPuntos(Usuario usuario){
+	/*public boolean verificarPuntos(Usuario usuario){
 		try{
 			int apuesta= Integer.parseInt(puntosApuesta.getText());
 			if(usuario.getPuntos()>=apuesta)
@@ -254,5 +255,10 @@ public class GUI extends JFrame implements FocusListener, ActionListener{
 			else
 				return false;
 		}
+	}*/
+	
+	private void resetearStats(int id){
+		personajes.get(id).calcularPrecision();
+		//personajes.get(id).
 	}
 }

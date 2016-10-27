@@ -22,12 +22,12 @@ public class Personaje {
 		this.fuerza = calcularFuerza();
 		this.precision = calcularPrecision();
 	}
-	private int calcularFuerza() {
+	public int calcularFuerza() {
 		while(fuerza<200)
 			fuerza = random.nextInt(700);
 		return fuerza;
 	}
-	private int calcularAgilidad() {
+	public int calcularAgilidad() {
 		while(agilidad<200)
 			agilidad = random.nextInt(700);
 		return agilidad;
