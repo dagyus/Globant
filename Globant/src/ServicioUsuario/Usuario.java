@@ -2,7 +2,8 @@ package ServicioUsuario;
 
 public class Usuario {
 	private int id, puntos, edad;
-	private String password, nickname;
+	private String nickname;
+	private char password[];
 	public int getId() {
 		return id;
 	}
@@ -18,7 +19,7 @@ public class Usuario {
 	public int getEdad() {
 		return edad;
 	}
-	public Usuario(int id, int puntos, int edad, String password, String nickname) {
+	public Usuario(int id, int puntos, int edad, char password[], String nickname) {
 		this.id = id;
 		this.puntos = puntos;
 		this.edad = edad;
@@ -28,10 +29,10 @@ public class Usuario {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-	public String getPassword() {
+	public char[] getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public void setPassword(char password[]) {
 		this.password = password;
 	}
 	public String getNickname() {

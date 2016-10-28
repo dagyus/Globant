@@ -12,9 +12,10 @@ public class GUI_REGISTRO extends JFrame implements ActionListener{
 	private JButton registrar;
 	private JLabel lNickname, lPassword, lEdad;
 	private Container container=new Container();
-	private String contrasenia, usuario;
+	private String usuario;
+	private char contrasenia[];
 	private int age;
-	
+	private static final int ID_INICIO=1;
 	public GUI_REGISTRO(){
 		setTitle("Inicio Sesion");
 		container=getContentPane();
@@ -51,9 +52,22 @@ public class GUI_REGISTRO extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(registrar)){
-			usuario=nickname.getText();
-			contrasenia=password.getText();
-			age= Integer.parseInt(edad.getText());
+			try{
+				usuario=nickname.getText();
+				contrasenia=password.getPassword();
+				age=Integer.parseInt(edad.getText());
+				GUI_LOGIN gui=new GUI_LOGIN(1);
+				if(gui.usuarios.isEmpty()){
+					gui.usuarios.add(new Usuario(ID_INICIO, 50, age, contrasenia, usuario));
+				}else{
+					gui.usuarios.add(new Usuario(gui.usuarios.size(), 50, age, contrasenia, usuario));
+				}
+				gui.guardarUsuarios();
+				gui.dispose();
+                super.dispose();
+			}catch(Exception exception){
+				JOptionPane.showMessageDialog(null, "Algo ha fallado. Por favor, verifique los campos.");
+			}
 			
 		}
 	}

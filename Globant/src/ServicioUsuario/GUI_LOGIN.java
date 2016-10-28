@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -26,11 +28,13 @@ public class GUI_LOGIN extends JFrame implements ActionListener{
 	private Container container=new Container();
 	public static ArrayList<Usuario> usuarios=new ArrayList<>();
 	private static final int ID_INICIO=1;
-	private String usuario, contrasenia;
+	private String usuario;
+	private char contrasenia[];
 	public GUI_LOGIN(int i){
 		setVisible(false);
 	}
 	public GUI_LOGIN(){
+		leerUsuarios();
 		setTitle("Inicio Sesion");
 		container=getContentPane();
 		container.setLayout(null);
@@ -56,34 +60,41 @@ public class GUI_LOGIN extends JFrame implements ActionListener{
 		olvidoPassword=new JLabel("Olvido su Password?");
 		olvidoPassword.setBounds(280, 300, 150, 20);
 		container.add(olvidoPassword);
+        inicioSesion.addActionListener(this);
 		registrar.addActionListener(this);
 		setVisible(true);
 	}
 	public static void main(String[] args) {
-		leerUsuarios();
     	GUI_LOGIN gui=new GUI_LOGIN();
     	gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(inicioSesion)){
-			boolean flag=false;
-			usuario=nickname.getText();
-			contrasenia=password.getText();
-			int i=0;
-			while(i<usuarios.size() && !flag){
-				if(usuario.equals(usuarios.get(i).getNickname())){
-					if(contrasenia.equals(usuarios.get(i).getPassword())){
-						GUI gui=new GUI(usuarios.get(i));
-						gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-						super.setVisible(false);
-						flag=true;
-					}else
-						JOptionPane.showMessageDialog(null, "Password incorrecta.");
+			try{
+				boolean flag=false;
+				usuario=nickname.getText();
+				contrasenia=password.getPassword();
+				contrasenia=password.getPassword();
+				int i=0;
+				while(i<usuarios.size() && !flag){
+					if(usuario.equals(usuarios.get(i).getNickname())){
+						if(String.valueOf(contrasenia).equals(String.valueOf(usuarios.get(i).getPassword()))){
+							super.setVisible(false);
+							GUI gui=new GUI(usuarios.get(i));
+							gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+							flag=true;
+						}else{
+							JOptionPane.showMessageDialog(null, "Password incorrecta.");
+							flag=true;
+						}
+					}
 				}
-			}
-			if(!flag){
-				JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+				if(!flag){
+					JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+				}
+			}catch(Exception exception){
+				JOptionPane.showMessageDialog(null, "Algo malo ha ocurrido. Verifique los campos.");
 			}
 		}
 		if(e.getSource().equals(registrar)){
@@ -108,7 +119,8 @@ public class GUI_LOGIN extends JFrame implements ActionListener{
 
             String linea;
             int edad=0, puntos=0;
-            String nickname="", password="";
+            String nickname="";
+            char password[]=null;
 
             while ((linea = oBufferedReader.readLine()) != null) {
                 int campo = 0;
@@ -129,7 +141,7 @@ public class GUI_LOGIN extends JFrame implements ActionListener{
                         	cadena="";
                         	break;
                         case 3:
-                        	password=cadena;
+                        	password=cadena.toCharArray();
                         	cadena="";
                         	break;
                         case 4:
@@ -145,11 +157,11 @@ public class GUI_LOGIN extends JFrame implements ActionListener{
                 }else{
                 	usuarios.add(new Usuario(usuarios.size()+1, puntos, edad, password, nickname));
                 }
+               
            }
         } catch (Exception e) {
 
         } finally {
-
             try {
                 if (oFileReader != null) {
                     oFileReader.close();
@@ -159,6 +171,39 @@ public class GUI_LOGIN extends JFrame implements ActionListener{
             }
         }
 
+    }
+	public static void guardarUsuarios(){
+        FileWriter oFileWriter = null;
+        PrintWriter oPrintWriter = null;
+        try {
+            oFileWriter = new FileWriter("usuarios.txt");
+            oPrintWriter = new PrintWriter(oFileWriter);
+
+            for (int i = 0; i < usuarios.size(); i++) {
+
+                oPrintWriter.append(usuarios.get(i).getEdad()+"\t");
+
+                oPrintWriter.append(usuarios.get(i).getPuntos()+"\t");
+
+                oPrintWriter.append(String.valueOf(usuarios.get(i).getPassword())+"\t");
+
+                oPrintWriter.append(usuarios.get(i).getNickname()+"\t");
+
+                oPrintWriter.append("\n");
+
+            }
+        } catch (Exception e1) {
+
+        } finally {
+            try {
+
+                if (oFileWriter != null) {
+                    oPrintWriter.close();
+                }
+            } catch (Exception e2) {
+
+            }
+        }
     }
 
 }
