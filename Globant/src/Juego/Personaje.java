@@ -3,11 +3,12 @@ package Juego;
 import java.util.Random;
 public class Personaje {
 	
-	private static final int VELOCIDAD_BASE=500;
+	private static final double VELOCIDAD_BASE=500;
 	private static final int INTELIGENCIA_BASE=300;
 	private int id, edad,  agilidad, puntos, fuerza, precision;
 	private String raza;
-	private double peso, velocidad, inteligencia;
+	private double velocidad, inteligencia;
+	private float peso;
 	private Random random=new Random();
 	public Personaje(int id, int edad, int puntos, 
 			String raza, float peso) {
@@ -82,10 +83,10 @@ public class Personaje {
 	public void setRaza(String raza) {
 		this.raza = raza;
 	}
-	public double getPeso() {
+	public float getPeso() {
 		return peso;
 	}
-	public void setPeso(double peso) {
+	public void setPeso(float peso) {
 		this.peso = peso;
 	}
 	public double getVelocidad() {
@@ -100,7 +101,7 @@ public class Personaje {
 	public void setInteligencia(double inteligencia) {
 		this.inteligencia = inteligencia;
 	}
-	public static int getVelocidadBase() {
+	public static double getVelocidadBase() {
 		return VELOCIDAD_BASE;
 	}
 	public static int getInteligenciaBase() {

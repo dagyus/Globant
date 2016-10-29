@@ -1,3 +1,3 @@
-40	0	Paladin	97,6
-60	0	Mago	68,0
-47	0	Coloso	105,7
+40	0	Paladin	97.6	
+60	0	Mago	68.0	
+47	0	Coloso	105.7	

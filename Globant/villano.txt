@@ -1,3 +1,3 @@
-38	0	Caballero Oscuro	90,8
-75	0	Nigromante	73,5
-48	0	Coloso Oscuro	106,0
+38	0	Caballero Oscuro	90.8	
+75	0	Nigromante	73.5	
+48	0	Coloso Oscuro	106.0	

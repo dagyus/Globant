@@ -7,12 +7,12 @@ public class ServicioPelea {
 	private int contadorVillano=0;
 	private Heroe heroe;
 	private Villano villano;
+	private String ganador;
 	public ServicioPelea(Heroe heroe, Villano villano){
 		this.heroe=heroe;
 		this.villano=villano;
 	}
 	public void pelea(){
-		JOptionPane.showMessageDialog(null, "Pelea iniciada");
 		compararFuerza();
 		compararVelocidad();
 		compararInteligencia();
@@ -20,12 +20,15 @@ public class ServicioPelea {
 		compararPrecision();
 		if(contadorHeroe>contadorVillano){
 			JOptionPane.showMessageDialog(null, "Gano el heroe.");
+			this.setGanador("Heroe");
 		}
 		if(contadorHeroe<contadorVillano){
 			JOptionPane.showMessageDialog(null, "Gano el villano.");
+			this.setGanador("Villano");
 		}
 		if(contadorHeroe==contadorVillano){
 			JOptionPane.showMessageDialog(null, "Empataron.");
+			this.setGanador("Empate");
 		}
 		heroe=null;
 		villano=null;
@@ -70,5 +73,11 @@ public class ServicioPelea {
 		if(heroe.getPrecision()<villano.getPrecision()){
 			contadorVillano++;
 		}
+	}
+	public String getGanador() {
+		return ganador;
+	}
+	public void setGanador(String ganador) {
+		this.ganador = ganador;
 	}
 }
