@@ -41,6 +41,11 @@ public class Personaje {
 	}
 	private double calculaVelocidad(){
 		velocidad=VELOCIDAD_BASE-(peso*0.3);
+		double parteEntera=Math.floor(velocidad);
+		velocidad-=parteEntera;
+		velocidad*=Math.pow(10, 2);
+		velocidad=Math.round(velocidad);
+		velocidad=parteEntera+(velocidad/Math.pow(10, 2));
 		return velocidad;
 	}
 	private double calculaInteligencia(){

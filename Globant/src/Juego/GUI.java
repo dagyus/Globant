@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
-public class GUI extends JFrame implements FocusListener, ActionListener, ItemListener{
+public class GUI extends JFrame implements FocusListener, ActionListener, ItemListener, WindowListener{
 	private static final int ID_INICIO=1;
 	private static final long serialVersionUID = 1L;
 	private Container container=new Container();
@@ -122,6 +122,7 @@ public class GUI extends JFrame implements FocusListener, ActionListener, ItemLi
         leerHeroes();
         leerVillano();
         setVisible(true);
+        super.addWindowListener(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     public static void main(String[] args) {
@@ -141,24 +142,28 @@ public class GUI extends JFrame implements FocusListener, ActionListener, ItemLi
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource()==apostarInicioPelea){
 			if(verificarPuntos(usuario)){
-				limpiarStats();
-				int idHeroe=1, idVillano=1;
-				Random random=new Random();
-				do{
-					idHeroe= random.nextInt(personajes.size()-1);
-				}while(!(personajes.get(idHeroe) instanceof Heroe) || (idHeroe<0));
-				do{
-					idVillano=random.nextInt(personajes.size()-1);
-				}while(!(personajes.get(idVillano) instanceof Villano) || (idVillano<0));
-				ServicioPelea pelea=new ServicioPelea((Heroe) personajes.get(idHeroe), (Villano) personajes.get(idVillano));
-				pelea.pelea();
-				modificarStats(idHeroe, idVillano);
-				resetearStats(idHeroe);
-				resetearStats(idVillano);
-				modificarPuntos(pelea, Integer.parseInt(puntosApuesta.getText()));
-				puntaje.setText("Puntos: "+usuario.getPuntos());
-				idHeroe=1;
-				idVillano=1;
+				if(heroe.isSelected() || villano.isSelected()){
+					limpiarStats();
+					int idHeroe=1, idVillano=1;
+					Random random=new Random();
+					do{
+						idHeroe= random.nextInt(personajes.size()-1);
+					}while(!(personajes.get(idHeroe) instanceof Heroe) || (idHeroe<0));
+					do{
+						idVillano=random.nextInt(personajes.size()-1);
+					}while(!(personajes.get(idVillano) instanceof Villano) || (idVillano<0));
+					ServicioPelea pelea=new ServicioPelea((Heroe) personajes.get(idHeroe), (Villano) personajes.get(idVillano));
+					pelea.pelea();
+					modificarStats(idHeroe, idVillano);
+					resetearStats(idHeroe);
+					resetearStats(idVillano);
+					modificarPuntos(pelea, Integer.parseInt(puntosApuesta.getText()));
+					puntaje.setText("Puntos: "+usuario.getPuntos());
+					idHeroe=1;
+					idVillano=1;
+				}else{
+					JOptionPane.showMessageDialog(null, "No selecciono su apuesta.");
+				}
 			}else{
 				JOptionPane.showMessageDialog(null, "Verificar puntos o campo de apuesta.");
 			}
@@ -383,5 +388,33 @@ public class GUI extends JFrame implements FocusListener, ActionListener, ItemLi
 	}
 	public void setSeleccion(boolean seleccion) {
 		this.seleccion = seleccion;
+	}
+	@Override
+	public void windowOpened(WindowEvent e) {
+		
+	}
+	@Override
+	public void windowClosing(WindowEvent e) {
+		ServicioUsuario.GUI_LOGIN.guardarUsuarios();
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+
+	}
+	@Override
+	public void windowIconified(WindowEvent e) {
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		
+	}
+	@Override
+	public void windowActivated(WindowEvent e) {
+		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		
 	}
 }
